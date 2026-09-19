@@ -229,7 +229,7 @@ public class ExtensionReaderTest
 
 
   @Test(dataProvider = "subject-alt-name")
-  public void testReadSubjectAlternativeName(final X509Certificate cert, final String[] expected)
+  public void testReadSubjectAlternativeName(final X509Certificate cert, final String... expected)
     throws Exception
   {
     final GeneralNames names = new ExtensionReader(cert).readSubjectAlternativeName();
@@ -240,7 +240,7 @@ public class ExtensionReaderTest
   }
 
   @Test(dataProvider = "issuer-alt-name")
-  public void testReadIssuerAlternativeName(final X509Certificate cert, final String[] expected)
+  public void testReadIssuerAlternativeName(final X509Certificate cert, final String... expected)
     throws Exception
   {
     final GeneralNames names = new ExtensionReader(cert).readIssuerAlternativeName();

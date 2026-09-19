@@ -44,6 +44,7 @@ import org.cryptacular.util.ByteUtil;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public class CiphertextHeaderV2 extends CiphertextHeader
 {
   /** Header version format. */

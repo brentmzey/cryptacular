@@ -7,10 +7,11 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Unit test for {@link CiphertextHeader}.
+ * Unit test for {@link org.cryptacular.CiphertextHeader}.
  *
  * @author Middleware Services
  */
+@SuppressWarnings("deprecation")
 public class CiphertextHeaderTest
 {
 
@@ -19,7 +20,7 @@ public class CiphertextHeaderTest
       expectedExceptionsMessageRegExp = "Nonce exceeds size limit in bytes.*")
   public void testNonceLimitConstructor()
   {
-    new CiphertextHeader(new byte[256], "key2");
+    new org.cryptacular.CiphertextHeader(new byte[256], "key2");
   }
 
   @Test
@@ -27,10 +28,10 @@ public class CiphertextHeaderTest
   {
     final byte[] nonce = new byte[255];
     Arrays.fill(nonce, (byte) 7);
-    final CiphertextHeader expected = new CiphertextHeader(nonce, "aleph");
+    final org.cryptacular.CiphertextHeader expected = new org.cryptacular.CiphertextHeader(nonce, "aleph");
     final byte[] encoded = expected.encode();
     assertEquals(expected.getLength(), encoded.length);
-    final CiphertextHeader actual = CiphertextHeader.decode(encoded);
+    final org.cryptacular.CiphertextHeader actual = org.cryptacular.CiphertextHeader.decode(encoded);
     assertEquals(expected.getNonce(), actual.getNonce());
     assertEquals(expected.getKeyName(), actual.getKeyName());
     assertEquals(expected.getLength(), actual.getLength());
@@ -42,7 +43,7 @@ public class CiphertextHeaderTest
   public void testDecodeFailNonceLengthExceeded()
   {
     // https://github.com/vt-middleware/cryptacular/issues/52
-    CiphertextHeader.decode(CodecUtil.hex("000000347ffffffd"));
+    org.cryptacular.CiphertextHeader.decode(CodecUtil.hex("000000347ffffffd"));
   }
 
   @Test(
@@ -50,6 +51,6 @@ public class CiphertextHeaderTest
       expectedExceptionsMessageRegExp = "Bad ciphertext header: maximum key length exceeded")
   public void testDecodeFailKeyLengthExceeded()
   {
-    CiphertextHeader.decode(CodecUtil.hex("000000F300000004DEADBEEF00FFFFFF"));
+    org.cryptacular.CiphertextHeader.decode(CodecUtil.hex("000000F300000004DEADBEEF00FFFFFF"));
   }
 }

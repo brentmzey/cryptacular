@@ -1,12 +1,17 @@
 /* See LICENSE for licensing and NOTICE for copyright. */
 package org.cryptacular.x509.dn;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Simple implementation of the X.501 AttributeTypeAndValue that makes up the RelativeDistinguishedName type described
  * in section 4.1.2.4 of RFC 2459.
  *
  * @author  Middleware Services
  */
+@Value
+@Builder(toBuilder = true)
 public class Attribute
 {
 
@@ -35,17 +40,4 @@ public class Attribute
     this.value = value;
   }
 
-
-  /** @return  Attribute type. */
-  public AttributeType getType()
-  {
-    return type;
-  }
-
-
-  /** @return  Attribute value. */
-  public String getValue()
-  {
-    return value;
-  }
 }

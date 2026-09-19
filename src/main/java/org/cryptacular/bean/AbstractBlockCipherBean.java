@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore;
-import org.cryptacular.CiphertextHeader;
 import org.cryptacular.StreamException;
 import org.cryptacular.adapter.BlockCipherAdapter;
 import org.cryptacular.generator.Nonce;
@@ -16,6 +15,7 @@ import org.cryptacular.util.StreamUtil;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractBlockCipherBean extends AbstractCipherBean
 {
 
@@ -42,7 +42,7 @@ public abstract class AbstractBlockCipherBean extends AbstractCipherBean
 
 
   @Override
-  protected byte[] process(final CiphertextHeader header, final boolean mode, final byte[] input)
+  protected byte[] process(final org.cryptacular.CiphertextHeader header, final boolean mode, final byte[] input)
   {
     final BlockCipherAdapter cipher = newCipher(header, mode);
     int outOff;
@@ -78,7 +78,7 @@ public abstract class AbstractBlockCipherBean extends AbstractCipherBean
 
   @Override
   protected void process(
-    final CiphertextHeader header,
+    final org.cryptacular.CiphertextHeader header,
     final boolean mode,
     final InputStream input,
     final OutputStream output)
@@ -111,5 +111,5 @@ public abstract class AbstractBlockCipherBean extends AbstractCipherBean
    *
    * @return  Block cipher adapter that wraps an initialized block cipher that is ready for use in the given mode.
    */
-  protected abstract BlockCipherAdapter newCipher(CiphertextHeader header, boolean mode);
+  protected abstract BlockCipherAdapter newCipher(org.cryptacular.CiphertextHeader header, boolean mode);
 }

@@ -1,6 +1,8 @@
 /* See LICENSE for licensing and NOTICE for copyright. */
 package org.cryptacular.spec;
 
+import lombok.Builder;
+import lombok.Value;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.GOST3411Digest;
 import org.bouncycastle.crypto.digests.MD2Digest;
@@ -25,6 +27,8 @@ import org.bouncycastle.crypto.digests.WhirlpoolDigest;
  *
  * @author  Middleware Services
  */
+@Value
+@Builder(toBuilder = true)
 public class DigestSpec implements Spec<Digest>
 {
 
@@ -66,20 +70,6 @@ public class DigestSpec implements Spec<Digest>
       throw new IllegalArgumentException("Digest size must be positive.");
     }
     this.size = digestSize;
-  }
-
-
-  @Override
-  public String getAlgorithm()
-  {
-    return algorithm;
-  }
-
-
-  /** @return  Size of digest output in bytes, or -1 if the digest does not support variable size output. */
-  public int getSize()
-  {
-    return size;
   }
 
 

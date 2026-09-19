@@ -80,6 +80,12 @@
       <version>7.5.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -194,6 +200,11 @@
             <!-- version 10 requires >= java 11 -->
             <version>9.3</version>
           </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+    </dependency>
         </dependencies>
         <configuration>
           <configLocation>${checkstyle.dir}/checks.xml</configLocation>

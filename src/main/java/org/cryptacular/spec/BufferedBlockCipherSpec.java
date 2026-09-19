@@ -136,7 +136,7 @@ public class BufferedBlockCipherSpec implements Spec<BufferedBlockCipher>, Seria
     switch (mode) {
 
     case "CBC":
-      cipher = new CBCBlockCipher(cipher);
+      cipher = CBCBlockCipher.newInstance(cipher);
       break;
 
     case "OFB":
@@ -144,7 +144,7 @@ public class BufferedBlockCipherSpec implements Spec<BufferedBlockCipher>, Seria
       break;
 
     case "CFB":
-      cipher = new CFBBlockCipher(cipher, cipher.getBlockSize());
+      cipher = CFBBlockCipher.newInstance(cipher, cipher.getBlockSize());
       break;
 
     default:
@@ -154,7 +154,7 @@ public class BufferedBlockCipherSpec implements Spec<BufferedBlockCipher>, Seria
     if (padding != null) {
       return new PaddedBufferedBlockCipher(cipher, getPadding(padding));
     }
-    return new BufferedBlockCipher(cipher);
+    return new org.bouncycastle.crypto.DefaultBufferedBlockCipher(cipher);
   }
 
 

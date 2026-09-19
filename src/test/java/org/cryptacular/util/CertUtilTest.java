@@ -318,7 +318,7 @@ public class CertUtilTest
   }
 
   @Test(dataProvider = "subject-alt-names")
-  public void testSubjectAltNames(final X509Certificate cert, final String[] expected)
+  public void testSubjectAltNames(final X509Certificate cert, final String... expected)
     throws Exception
   {
     final GeneralNames names = CertUtil.subjectAltNames(cert);
@@ -336,7 +336,7 @@ public class CertUtilTest
   public void testSubjectAltNamesByType(
     final X509Certificate cert,
     final GeneralNameType[] types,
-    final String[] expected)
+    final String... expected)
     throws Exception
   {
     final GeneralNames names = CertUtil.subjectAltNames(cert, types);
@@ -351,7 +351,7 @@ public class CertUtilTest
   }
 
   @Test(dataProvider = "subject-names")
-  public void testSubjectNames(final X509Certificate cert, final String[] expected)
+  public void testSubjectNames(final X509Certificate cert, final String... expected)
     throws Exception
   {
     final List<String> names = CertUtil.subjectNames(cert);
@@ -362,7 +362,8 @@ public class CertUtilTest
   }
 
   @Test(dataProvider = "subject-names-by-type")
-  public void testSubjectNamesByType(final X509Certificate cert, final GeneralNameType[] types, final String[] expected)
+  public void testSubjectNamesByType(
+      final X509Certificate cert, final GeneralNameType[] types, final String... expected)
     throws Exception
   {
     final List<String> names = CertUtil.subjectNames(cert, types);
@@ -397,7 +398,7 @@ public class CertUtilTest
   }
 
   @Test(dataProvider = "has-policies")
-  public void testHasPolicies(final X509Certificate cert, final String[] expectedPolicies)
+  public void testHasPolicies(final X509Certificate cert, final String... expectedPolicies)
     throws Exception
   {
     assertTrue(CertUtil.hasPolicies(cert, expectedPolicies));

@@ -74,11 +74,11 @@ public class AEADBlockCipherSpec implements Spec<AEADBlockCipher>
     switch (mode) {
 
     case "GCM":
-      aeadBlockCipher = new GCMBlockCipher(blockCipher);
+      aeadBlockCipher = GCMBlockCipher.newInstance(blockCipher);
       break;
 
     case "CCM":
-      aeadBlockCipher = new CCMBlockCipher(blockCipher);
+      aeadBlockCipher = CCMBlockCipher.newInstance(blockCipher);
       break;
 
     case "OCB":

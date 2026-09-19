@@ -13,7 +13,6 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
-import org.cryptacular.CiphertextHeader;
 import org.cryptacular.CiphertextHeaderV2;
 import org.cryptacular.CryptoException;
 import org.cryptacular.EncodingException;
@@ -28,6 +27,7 @@ import org.cryptacular.generator.Nonce;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public final class CipherUtil
 {
 
@@ -105,10 +105,11 @@ public final class CipherUtil
    * @throws  CryptoException  on encryption errors.
    * @throws  EncodingException  on decoding cyphertext header.
    */
+  @SuppressWarnings("deprecation")
   public static byte[] decrypt(final AEADBlockCipher cipher, final SecretKey key, final byte[] data)
       throws CryptoException, EncodingException
   {
-    final CiphertextHeader header = decodeHeader(data, String -> key);
+    final org.cryptacular.CiphertextHeader header = decodeHeader(data, String -> key);
     final byte[] nonce = header.getNonce();
     final byte[] hbytes = header.encode();
     cipher.init(false, new AEADParameters(new KeyParameter(key.getEncoded()), MAC_SIZE_BITS, nonce, hbytes));
@@ -129,6 +130,7 @@ public final class CipherUtil
    * @throws  EncodingException  on decoding cyphertext header.
    * @throws  StreamException  on IO errors.
    */
+  @SuppressWarnings("deprecation")
   public static void decrypt(
     final AEADBlockCipher cipher,
     final SecretKey key,
@@ -136,7 +138,7 @@ public final class CipherUtil
     final OutputStream output)
     throws CryptoException, EncodingException, StreamException
   {
-    final CiphertextHeader header = decodeHeader(input, String -> key);
+    final org.cryptacular.CiphertextHeader header = decodeHeader(input, String -> key);
     final byte[] nonce = header.getNonce();
     final byte[] hbytes = header.encode();
     cipher.init(false, new AEADParameters(new KeyParameter(key.getEncoded()), MAC_SIZE_BITS, nonce, hbytes));
@@ -171,7 +173,8 @@ public final class CipherUtil
 
 
   /**
-   * Encrypts data using the given block cipher with PKCS5 padding. A {@link CiphertextHeader} is prepended to the
+   * Encrypts data using the given block cipher with PKCS5 padding.\
+   * A {@link org.cryptacular.CiphertextHeader} is prepended to the
    * resulting ciphertext.
    *
    * @param  cipher  Block cipher.
@@ -206,17 +209,18 @@ public final class CipherUtil
    *
    * @param  cipher  Block cipher.
    * @param  key  Encryption key.
-   * @param  data  Ciphertext data containing a prepended {@link CiphertextHeader}.
+   * @param  data  Ciphertext data containing a prepended {@link org.cryptacular.CiphertextHeader}.
    *
    * @return  Decrypted data that completely fills the returned byte array.
    *
    * @throws  CryptoException  on encryption errors.
    * @throws  EncodingException  on decoding cyphertext header.
    */
+  @SuppressWarnings("deprecation")
   public static byte[] decrypt(final BlockCipher cipher, final SecretKey key, final byte[] data)
     throws CryptoException, EncodingException
   {
-    final CiphertextHeader header = decodeHeader(data, String -> key);
+    final org.cryptacular.CiphertextHeader header = decodeHeader(data, String -> key);
     final PaddedBufferedBlockCipher padded = new PaddedBufferedBlockCipher(cipher, new PKCS7Padding());
     padded.init(false, new ParametersWithIV(new KeyParameter(key.getEncoded()), header.getNonce()));
     return decrypt(new BufferedBlockCipherAdapter(padded), data, header.getLength());
@@ -228,13 +232,14 @@ public final class CipherUtil
    *
    * @param  cipher  Block cipher.
    * @param  key  Encryption key.
-   * @param  input  Input stream containing a {@link CiphertextHeader} followed by ciphertext data.
+   * @param  input  Input stream containing a {@link org.cryptacular.CiphertextHeader} followed by ciphertext data.
    * @param  output  Output stream that receives plaintext produced by block cipher in decryption mode.
    *
    * @throws  CryptoException  on encryption errors.
    * @throws  EncodingException  on decoding cyphertext header.
    * @throws  StreamException  on IO errors.
    */
+  @SuppressWarnings("deprecation")
   public static void decrypt(
     final BlockCipher cipher,
     final SecretKey key,
@@ -242,7 +247,7 @@ public final class CipherUtil
     final OutputStream output)
     throws CryptoException, EncodingException, StreamException
   {
-    final CiphertextHeader header = decodeHeader(input, String -> key);
+    final org.cryptacular.CiphertextHeader header = decodeHeader(input, String -> key);
     final PaddedBufferedBlockCipher padded = new PaddedBufferedBlockCipher(cipher, new PKCS7Padding());
     padded.init(false, new ParametersWithIV(new KeyParameter(key.getEncoded()), header.getNonce()));
     process(new BufferedBlockCipherAdapter(padded), input, output);
@@ -258,12 +263,14 @@ public final class CipherUtil
    *
    * @return  Ciphertext header instance.
    */
-  public static CiphertextHeader decodeHeader(final byte[] data, final Function<String, SecretKey> keyLookup)
+  @SuppressWarnings("deprecation")
+  public static org.cryptacular.CiphertextHeader decodeHeader(
+    final byte[] data, final Function<String, SecretKey> keyLookup)
   {
     try {
       return CiphertextHeaderV2.decode(data, keyLookup);
     } catch (EncodingException e) {
-      return CiphertextHeader.decode(data);
+      return org.cryptacular.CiphertextHeader.decode(data);
     }
   }
 
@@ -277,9 +284,11 @@ public final class CipherUtil
    *
    * @return  Ciphertext header instance.
    */
-  public static CiphertextHeader decodeHeader(final InputStream in, final Function<String, SecretKey> keyLookup)
+  @SuppressWarnings("deprecation")
+  public static org.cryptacular.CiphertextHeader decodeHeader(
+    final InputStream in, final Function<String, SecretKey> keyLookup)
   {
-    CiphertextHeader header;
+    org.cryptacular.CiphertextHeader header;
     try {
       // Mark the stream start position, so we can try again with old format header
       if (in.markSupported()) {
@@ -292,7 +301,7 @@ public final class CipherUtil
       } catch (IOException ioe) {
         throw new StreamException("Stream error trying to process old header format: " + ioe.getMessage());
       }
-      header = CiphertextHeader.decode(in);
+      header = org.cryptacular.CiphertextHeader.decode(in);
     }
     return header;
   }

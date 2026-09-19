@@ -8,7 +8,6 @@ import javax.crypto.SecretKey;
 import org.bouncycastle.crypto.modes.AEADBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
-import org.cryptacular.CiphertextHeader;
 import org.cryptacular.adapter.AEADBlockCipherAdapter;
 import org.cryptacular.generator.Nonce;
 import org.cryptacular.spec.Spec;
@@ -18,6 +17,7 @@ import org.cryptacular.spec.Spec;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public class AEADBlockCipherBean extends AbstractBlockCipherBean
 {
 
@@ -92,7 +92,7 @@ public class AEADBlockCipherBean extends AbstractBlockCipherBean
 
 
   @Override
-  protected AEADBlockCipherAdapter newCipher(final CiphertextHeader header, final boolean mode)
+  protected AEADBlockCipherAdapter newCipher(final org.cryptacular.CiphertextHeader header, final boolean mode)
   {
     final AEADBlockCipher cipher = blockCipherSpec.newInstance();
     final SecretKey key = lookupKey(header.getKeyName());

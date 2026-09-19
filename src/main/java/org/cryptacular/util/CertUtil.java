@@ -49,6 +49,7 @@ import org.cryptacular.x509.GeneralNameType;
 import org.cryptacular.x509.KeyUsageBits;
 import org.cryptacular.x509.dn.NameReader;
 import org.cryptacular.x509.dn.StandardAttributeType;
+import static java.util.Optional.ofNullable;
 
 /**
  * Utility class providing convenience methods for common operations on X.509 certificates.
@@ -106,16 +107,11 @@ public final class CertUtil
     throws EncodingException
   {
     final GeneralNamesBuilder builder = new GeneralNamesBuilder();
-    final GeneralNames altNames = subjectAltNames(cert);
-    if (altNames != null) {
-      for (GeneralName name : altNames.getNames()) {
-        for (GeneralNameType type : types) {
-          if (type.ordinal() == name.getTagNo()) {
-            builder.addName(name);
-          }
-        }
-      }
-    }
+    ofNullable(subjectAltNames(cert))
+      .map(GeneralNames::getNames)
+      .ifPresent(names -> Arrays.stream(names)
+        .filter(name -> Arrays.stream(types).anyMatch(type -> type.ordinal() == name.getTagNo()))
+        .forEach(builder::addName));
 
     final GeneralNames names = builder.build();
     if (names.getNames().length == 0) {
@@ -138,18 +134,14 @@ public final class CertUtil
   public static List<String> subjectNames(final X509Certificate cert) throws EncodingException
   {
     final List<String> names = new ArrayList<>();
-    final String cn = subjectCN(cert);
-    if (cn != null) {
-      names.add(cn);
-    }
+    ofNullable(subjectCN(cert)).ifPresent(names::add);
 
-    final GeneralNames altNames = subjectAltNames(cert);
-    if (altNames == null) {
-      return names;
-    }
-    for (GeneralName name : altNames.getNames()) {
-      names.add(name.getName().toString());
-    }
+    ofNullable(subjectAltNames(cert))
+      .map(GeneralNames::getNames)
+      .ifPresent(altNames -> Arrays.stream(altNames)
+        .map(name -> name.getName().toString())
+        .forEach(names::add));
+
     return names;
   }
 

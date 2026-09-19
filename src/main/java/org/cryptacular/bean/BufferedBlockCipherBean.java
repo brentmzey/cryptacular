@@ -6,7 +6,6 @@ import org.bouncycastle.crypto.BufferedBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
-import org.cryptacular.CiphertextHeader;
 import org.cryptacular.adapter.BufferedBlockCipherAdapter;
 import org.cryptacular.generator.Nonce;
 import org.cryptacular.spec.Spec;
@@ -17,6 +16,7 @@ import org.cryptacular.spec.Spec;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public class BufferedBlockCipherBean extends AbstractBlockCipherBean
 {
 
@@ -68,7 +68,7 @@ public class BufferedBlockCipherBean extends AbstractBlockCipherBean
 
 
   @Override
-  protected BufferedBlockCipherAdapter newCipher(final CiphertextHeader header, final boolean mode)
+  protected BufferedBlockCipherAdapter newCipher(final org.cryptacular.CiphertextHeader header, final boolean mode)
   {
     final BufferedBlockCipher cipher = blockCipherSpec.newInstance();
     CipherParameters params = new KeyParameter(lookupKey(header.getKeyName()).getEncoded());

@@ -1,6 +1,8 @@
 /* See LICENSE for licensing and NOTICE for copyright. */
 package org.cryptacular;
 
+import lombok.Builder;
+import lombok.Value;
 import org.cryptacular.codec.Encoder;
 import org.cryptacular.util.CodecUtil;
 
@@ -9,6 +11,8 @@ import org.cryptacular.util.CodecUtil;
  *
  * @author  Middleware Services
  */
+@Value
+@Builder(toBuilder = true)
 public class SaltedHash
 {
 
@@ -50,20 +54,6 @@ public class SaltedHash
       System.arraycopy(hashWithSalt, 0, salt, 0, salt.length);
       System.arraycopy(hashWithSalt, salt.length, hash, 0, hash.length);
     }
-  }
-
-
-  /** @return  Digest output. */
-  public byte[] getHash()
-  {
-    return hash;
-  }
-
-
-  /** @return  Salt value. */
-  public byte[] getSalt()
-  {
-    return salt;
   }
 
   /**

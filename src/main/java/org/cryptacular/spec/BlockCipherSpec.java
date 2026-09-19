@@ -56,7 +56,7 @@ public class BlockCipherSpec implements Spec<BlockCipher>
   {
     final BlockCipher cipher;
     if ("AES".equalsIgnoreCase(algorithm)) {
-      cipher = new AESEngine();
+      cipher = AESEngine.newInstance();
     } else if ("Blowfish".equalsIgnoreCase(algorithm)) {
       cipher = new BlowfishEngine();
     } else if ("Camellia".equalsIgnoreCase(algorithm)) {

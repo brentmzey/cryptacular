@@ -36,6 +36,7 @@ import static org.testng.Assert.assertEquals;
  * @author  Middleware Services
  */
 @Listeners(FailListener.class)
+@SuppressWarnings("deprecation")
 public class CipherUtilTest
 {
   /** Static key derived from keystore on resource classpath. */
@@ -62,13 +63,13 @@ public class CipherUtilTest
         new Object[] {
           // Plaintext is NOT multiple of block size
           "Able was I ere I saw elba.",
-          new CBCBlockCipher(new AESEngine()),
+          CBCBlockCipher.newInstance(AESEngine.newInstance()),
           new RBGNonce(16),
         },
         // Plaintext is multiple of block size
         new Object[] {
           "Four score and seven years ago, our forefathers ",
-          new CBCBlockCipher(new BlowfishEngine()),
+          CBCBlockCipher.newInstance(new BlowfishEngine()),
           new RBGNonce(8),
         },
         // OFB
@@ -80,7 +81,7 @@ public class CipherUtilTest
         // CFB
         new Object[] {
           "I went to the woods because I wished to live deliberately, to front only the essential facts of life",
-          new CFBBlockCipher(new AESEngine(), 128),
+          CFBBlockCipher.newInstance(AESEngine.newInstance(), 128),
           new RBGNonce(16),
         },
       };
@@ -95,23 +96,23 @@ public class CipherUtilTest
         new Object[] {
           // Plaintext is NOT multiple of block size
           "I never picked cotton like my mother did",
-          new GCMBlockCipher(new AESEngine()),
+          GCMBlockCipher.newInstance(AESEngine.newInstance()),
         },
         new Object[] {
           // Plaintext is multiple of block size
           "Cogito ergo sum.",
-          new GCMBlockCipher(new AESEngine()),
+          GCMBlockCipher.newInstance(AESEngine.newInstance()),
         },
         // CCM
         new Object[] {
           "Thousands of candles can be lit from a single candle and the life of the candle will not be shortened.",
-          new CCMBlockCipher(new TwofishEngine()),
+          CCMBlockCipher.newInstance(new TwofishEngine()),
         },
         // OCB
         new Object[] {
           "I slept and dreamt life was joy. I awoke and saw that life was service. " +
             "I acted and behold: service was joy.",
-          new OCBBlockCipher(new AESEngine(), new AESEngine()),
+          new OCBBlockCipher(AESEngine.newInstance(), AESEngine.newInstance()),
         },
       };
   }
@@ -153,7 +154,7 @@ public class CipherUtilTest
   public void testBlockCipherEncryptDecryptStream(final String path)
     throws Exception
   {
-    final BlockCipher cipher = new CBCBlockCipher(new AESEngine());
+    final BlockCipher cipher = CBCBlockCipher.newInstance(AESEngine.newInstance());
     final SecretKey key = SecretKeyGenerator.generate(cipher);
     final Nonce nonce = new CounterNonce("vt-crypt", 1);
     final File file = new File(path);
@@ -172,7 +173,7 @@ public class CipherUtilTest
   public void testAeadBlockCipherEncryptDecryptStream(final String path)
     throws Exception
   {
-    final AEADBlockCipher cipher = new GCMBlockCipher(new AESEngine());
+    final AEADBlockCipher cipher = GCMBlockCipher.newInstance(AESEngine.newInstance());
     final SecretKey key = SecretKeyGenerator.generate(cipher.getUnderlyingCipher());
     final File file = new File(path);
     final String expected = new String(StreamUtil.readAll(file));

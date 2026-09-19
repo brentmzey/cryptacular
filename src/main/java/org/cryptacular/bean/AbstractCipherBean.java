@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.security.Key;
 import java.security.KeyStore;
 import javax.crypto.SecretKey;
-import org.cryptacular.CiphertextHeader;
 import org.cryptacular.CiphertextHeaderV2;
 import org.cryptacular.CryptoException;
 import org.cryptacular.EncodingException;
@@ -21,6 +20,7 @@ import org.cryptacular.util.CipherUtil;
  *
  * @author  Middleware Services
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractCipherBean implements CipherBean
 {
 
@@ -193,7 +193,7 @@ public abstract class AbstractCipherBean implements CipherBean
    *
    * @return  Ciphertext data under encryption, plaintext data under decryption.
    */
-  protected abstract byte[] process(CiphertextHeader header, boolean mode, byte[] input);
+  protected abstract byte[] process(org.cryptacular.CiphertextHeader header, boolean mode, byte[] input);
 
 
   /**
@@ -204,7 +204,8 @@ public abstract class AbstractCipherBean implements CipherBean
    * @param  input  Stream containing input data.
    * @param  output  Stream that receives output of cipher.
    */
-  protected abstract void process(CiphertextHeader header, boolean mode, InputStream input, OutputStream output);
+  protected abstract void process(
+    org.cryptacular.CiphertextHeader header, boolean mode, InputStream input, OutputStream output);
 
 
   /**
