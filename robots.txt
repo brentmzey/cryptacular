@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /target/
+Disallow: /bin/
+Disallow: /.git/
+Disallow: /src/test/
+
+# Allow bots to index the main documentation and root project structures
+Allow: /docs/
+Allow: /src/main/
+Allow: /README.md
+Allow: /CONTRIBUTING.md
+Allow: /AGENTS.md
