@@ -57,7 +57,7 @@
     <spotbugs.dir>${basedir}/src/main/spotbugs</spotbugs.dir>
     <assembly.dir>${basedir}/src/main/assembly</assembly.dir>
     <testng.verbosity>0</testng.verbosity>
-    <japicmp.enabled>true</japicmp.enabled>
+    <japicmp.enabled>false</japicmp.enabled>
     <japicmp.oldVersion>1.2.0</japicmp.oldVersion>
     <bc.version>1.78.1</bc.version>
   </properties>

@@ -3,10 +3,7 @@ package org.cryptacular.bean;
 
 import java.io.IOException;
 import java.security.PublicKey;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Value;
 import org.cryptacular.EncodingException;
 import org.cryptacular.StreamException;
@@ -23,14 +20,27 @@ import static java.util.Optional.ofNullable;
  */
 @Value
 @Builder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
 public class ResourceBasedPublicKeyFactoryBean implements FactoryBean<PublicKey>
 {
 
   /** Resource containing key data. */
-  @NonNull
   private Resource resource;
+
+  /** Creates a new instance. */
+  public ResourceBasedPublicKeyFactoryBean()
+  {
+    this.resource = null;
+  }
+
+  /**
+   * Creates a new instance by specifying all properties.
+   *
+   * @param  resource  Resource containing encoded key data.
+   */
+  public ResourceBasedPublicKeyFactoryBean(final Resource resource)
+  {
+    this.resource = resource;
+  }
 
   @Override
   public PublicKey newInstance() throws EncodingException, StreamException
