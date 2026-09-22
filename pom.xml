@@ -185,8 +185,8 @@
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>21</source>
+          <target>21</target>
         </configuration>
       </plugin>
       <plugin>
@@ -299,10 +299,10 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <source>8</source>
+          <source>21</source>
           <doclint>none</doclint>
           <links>
-            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+            <link>https://docs.oracle.com/en/java/javase/21/docs/api/</link>
           </links>
           <bottom><![CDATA[<i>Copyright &#169; 2003-2024 Virginia Tech. All Rights Reserved.</i>]]></bottom>
         </configuration>
