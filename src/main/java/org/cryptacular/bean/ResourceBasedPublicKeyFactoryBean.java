@@ -12,8 +12,25 @@ import org.cryptacular.util.KeyPairUtil;
 import static java.util.Optional.ofNullable;
 
 /**
- * Factory for creating a public key from a {@link Resource} containing data in any of the formats supported by {@link
- * KeyPairUtil#readPublicKey(java.io.InputStream)}.
+ * Immutable factory for creating a {@link PublicKey} from a {@link Resource}.
+ *
+ * <p>This factory utilizes Lombok's {@code @Value} and {@code @Builder} to provide a strictly
+ * immutable, functional approach to key generation. It leverages {@code Optional} to handle data
+ * extraction gracefully without resorting to deep imperative blocks.</p>
+ *
+ * <h2>Usage Example:</h2>
+ * <pre>{@code
+ * ResourceBasedPublicKeyFactoryBean factory = ResourceBasedPublicKeyFactoryBean.builder()
+ *     .resource(new ClasspathResource("keys/public-key.pem"))
+ *     .build();
+ *
+ * PublicKey key = factory.newInstance();
+ *
+ * // Create a derived factory using the builder copy method
+ * ResourceBasedPublicKeyFactoryBean derived = factory.toBuilder()
+ *     .resource(new FileResource(new File("/opt/keys/override.pem")))
+ *     .build();
+ * }</pre>
  *
  * @author  Middleware Services
  * @see  KeyPairUtil#readPublicKey(java.io.InputStream)
