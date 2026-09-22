@@ -3,6 +3,7 @@ package org.cryptacular;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.experimental.NonFinal;
 import org.cryptacular.codec.Encoder;
 import org.cryptacular.util.CodecUtil;
 
@@ -12,6 +13,7 @@ import org.cryptacular.util.CodecUtil;
  * @author  Middleware Services
  */
 @Value
+@NonFinal
 @Builder(toBuilder = true)
 public class SaltedHash
 {

@@ -3,10 +3,16 @@ package org.cryptacular.bean;
 
 import java.io.IOException;
 import java.security.PublicKey;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Value;
 import org.cryptacular.EncodingException;
 import org.cryptacular.StreamException;
 import org.cryptacular.io.Resource;
 import org.cryptacular.util.KeyPairUtil;
+import static java.util.Optional.ofNullable;
 
 /**
  * Factory for creating a public key from a {@link Resource} containing data in any of the formats supported by {@link
@@ -15,53 +21,28 @@ import org.cryptacular.util.KeyPairUtil;
  * @author  Middleware Services
  * @see  KeyPairUtil#readPublicKey(java.io.InputStream)
  */
+@Value
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class ResourceBasedPublicKeyFactoryBean implements FactoryBean<PublicKey>
 {
 
   /** Resource containing key data. */
+  @NonNull
   private Resource resource;
-
-
-  /** Creates a new instance. */
-  public ResourceBasedPublicKeyFactoryBean() {}
-
-
-  /**
-   * Creates a new instance by specifying all properties.
-   *
-   * @param  resource  Resource containing encoded key data.
-   */
-  public ResourceBasedPublicKeyFactoryBean(final Resource resource)
-  {
-    setResource(resource);
-  }
-
-
-  /** @return  Resource containing key data. */
-  public Resource getResource()
-  {
-    return resource;
-  }
-
-
-  /**
-   * Sets the resource containing key data.
-   *
-   * @param  resource  Resource containing key bytes.
-   */
-  public void setResource(final Resource resource)
-  {
-    this.resource = resource;
-  }
-
 
   @Override
   public PublicKey newInstance() throws EncodingException, StreamException
   {
-    try {
-      return KeyPairUtil.readPublicKey(resource.getInputStream());
-    } catch (IOException e) {
-      throw new StreamException(e);
-    }
+    return ofNullable(resource)
+      .map(res -> {
+        try {
+          return KeyPairUtil.readPublicKey(res.getInputStream());
+        } catch (IOException e) {
+          throw new StreamException(e);
+        }
+      })
+      .orElseThrow(() -> new IllegalStateException("Resource must be configured before calling newInstance()"));
   }
 }

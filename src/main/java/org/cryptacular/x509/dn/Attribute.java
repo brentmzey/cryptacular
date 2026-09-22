@@ -3,6 +3,7 @@ package org.cryptacular.x509.dn;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.experimental.NonFinal;
 
 /**
  * Simple implementation of the X.501 AttributeTypeAndValue that makes up the RelativeDistinguishedName type described
@@ -11,6 +12,7 @@ import lombok.Value;
  * @author  Middleware Services
  */
 @Value
+@NonFinal
 @Builder(toBuilder = true)
 public class Attribute
 {

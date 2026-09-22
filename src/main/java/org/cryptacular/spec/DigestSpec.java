@@ -3,6 +3,7 @@ package org.cryptacular.spec;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.experimental.NonFinal;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.GOST3411Digest;
 import org.bouncycastle.crypto.digests.MD2Digest;
@@ -28,6 +29,7 @@ import org.bouncycastle.crypto.digests.WhirlpoolDigest;
  * @author  Middleware Services
  */
 @Value
+@NonFinal
 @Builder(toBuilder = true)
 public class DigestSpec implements Spec<Digest>
 {
