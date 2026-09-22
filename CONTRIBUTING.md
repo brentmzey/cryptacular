@@ -2,6 +2,19 @@
 
 We welcome contributions! To maintain the high quality and modern functional style of this codebase, please adhere to the following guidelines:
 
+## Development Environment Setup
+
+We strongly recommend using **SDKMAN!** to manage your Java Development Kit. Our builds and agents are tested and aligned against **Eclipse Temurin** (specifically Java 21).
+
+To align your local environment with our toolchain, run:
+```bash
+# Install Eclipse Temurin via SDKMAN!
+sdk install java 21.0.10-tem
+
+# Set it as your active JDK
+sdk use java 21.0.10-tem
+```
+
 ## Core Paradigms
 
 1. **Strict Immutability**: All new Beans, DTOs, and configuration classes MUST be strictly immutable. We enforce this via Lombok's `@Value` annotation.

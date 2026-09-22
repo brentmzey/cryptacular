@@ -3,13 +3,13 @@
   <p><b>The spectacular complement to the Bouncy Castle crypto API for Java.</b></p>
 
   [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular)
-  [![Java Support](https://img.shields.io/badge/Java-8%2B-blue.svg)](#)
+  [![Temurin Java Support](https://img.shields.io/badge/Eclipse_Temurin-8%2B-blue.svg)](#)
   [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](#)
 </div>
 
 <br/>
 
-> **Cryptacular** serves as a modern, functional, and strictly-typed abstraction layer on top of BouncyCastle's core cryptographic engine.
+> **Cryptacular** serves as a modern, functional, and strictly-typed abstraction layer on top of BouncyCastle's core cryptographic engine. Fully tested and aligned with **Eclipse Temurin** Java via **SDKMAN!**.
 
 ---
 
