@@ -1,15 +1,28 @@
-# Cryptacular [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular)
+<div align="center">
+  <h1>🛡️ Cryptacular</h1>
+  <p><b>The spectacular complement to the Bouncy Castle crypto API for Java.</b></p>
 
-The spectacular complement to the Bouncy Castle crypto API for Java.
+  [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.cryptacular/cryptacular)
+  [![Java Support](https://img.shields.io/badge/Java-8%2B-blue.svg)](#)
+  [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](#)
+</div>
 
-Cryptacular in a nutshell:
+<br/>
 
-* Utilities to perform common crypto operations (hash, encrypt, encode).
-* Stateful, thread-safe bean components.
-* Components to facilitate strict adherence to standards.
-* Comprehensive documentation and examples.
+> **Cryptacular** serves as a modern, functional, and strictly-typed abstraction layer on top of BouncyCastle's core cryptographic engine.
 
-## Quick Start & API Examples
+---
+
+## ✨ Features at a Glance
+
+* 🔒 **Common Crypto Utilities** — Simplified hashing, encryption, and encoding.
+* 🛡️ **Thread-Safe by Design** — Stateful, strictly immutable bean components.
+* 📜 **Standards Compliant** — Facilitates strict adherence to modern cryptography standards.
+* 🚀 **Functional Paradigms** — Heavily leans on Lombok, Optionals, and Builder patterns.
+
+---
+
+## ⚡ Quick Start & API Examples
 
 Cryptacular embraces modern, functional Java paradigms, including immutability (`@Value`), builder patterns (`@Builder`), and `Optional` data flows. 
 
@@ -44,5 +57,12 @@ ResourceBasedPublicKeyFactoryBean prodFactory = factory.toBuilder()
 
 ### 3. Null-Safety & Options
 
-Cryptacular aggressively leverages `java.util.Optional` for error handling and validation, keeping your data pipelines clean, declarative, and avoiding deep imperative try/catch blocks.
+Cryptacular aggressively leverages `java.util.Optional` for error handling and validation, keeping your data pipelines clean, declarative, and completely avoiding deep imperative `try/catch` blocks.
 
+---
+
+## 📚 Documentation & Agents
+
+* **[Architecture Guidelines](./docs/ARCHITECTURE.md)**: Deep-dive into our immutability strategy.
+* **[Agent Workflows](./AGENTS.md)**: Learn how AI agents collaboratively maintain this repository.
+* **[Contributing](./CONTRIBUTING.md)**: Standard contributor guidelines.
