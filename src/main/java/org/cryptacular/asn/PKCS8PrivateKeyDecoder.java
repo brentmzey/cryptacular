@@ -19,36 +19,36 @@ import org.cryptacular.pbe.PBES2EncryptionScheme;
 /**
  * Decodes PEM or DER-encoded PKCS#8 private keys.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
-public class PKCS8PrivateKeyDecoder extends AbstractPrivateKeyDecoder<AsymmetricKeyParameter>
-{
+public class PKCS8PrivateKeyDecoder extends AbstractPrivateKeyDecoder<AsymmetricKeyParameter> {
 
-  @Override
-  protected byte[] decryptKey(final byte[] encrypted, final char[] password)
-  {
-    final EncryptionScheme scheme;
-    final EncryptedPrivateKeyInfo ki = EncryptedPrivateKeyInfo.getInstance(tryConvertPem(encrypted));
-    final AlgorithmIdentifier alg = ki.getEncryptionAlgorithm();
-    if (PKCSObjectIdentifiers.id_PBES2.equals(alg.getAlgorithm())) {
-      scheme = new PBES2EncryptionScheme(PBES2Parameters.getInstance(alg.getParameters()), password);
-    } else {
-      scheme = new PBES1EncryptionScheme(
-        PBES1Algorithm.fromOid(alg.getAlgorithm().getId()),
-        PBEParameter.getInstance(alg.getParameters()),
-        password);
+    @Override
+    protected byte[] decryptKey(final byte[] encrypted, final char[] password) {
+        final EncryptionScheme scheme;
+        final EncryptedPrivateKeyInfo ki =
+                EncryptedPrivateKeyInfo.getInstance(tryConvertPem(encrypted));
+        final AlgorithmIdentifier alg = ki.getEncryptionAlgorithm();
+        if (PKCSObjectIdentifiers.id_PBES2.equals(alg.getAlgorithm())) {
+            scheme =
+                    new PBES2EncryptionScheme(
+                            PBES2Parameters.getInstance(alg.getParameters()), password);
+        } else {
+            scheme =
+                    new PBES1EncryptionScheme(
+                            PBES1Algorithm.fromOid(alg.getAlgorithm().getId()),
+                            PBEParameter.getInstance(alg.getParameters()),
+                            password);
+        }
+        return scheme.decrypt(ki.getEncryptedData());
     }
-    return scheme.decrypt(ki.getEncryptedData());
-  }
 
-
-  @Override
-  protected AsymmetricKeyParameter decodeASN1(final byte[] encoded)
-  {
-    try (ASN1InputStream is = new ASN1InputStream(encoded)) {
-      return PrivateKeyFactory.createKey(is.readObject().getEncoded());
-    } catch (IOException e) {
-      throw new EncodingException("ASN.1 decoding error", e);
+    @Override
+    protected AsymmetricKeyParameter decodeASN1(final byte[] encoded) {
+        try (ASN1InputStream is = new ASN1InputStream(encoded)) {
+            return PrivateKeyFactory.createKey(is.readObject().getEncoded());
+        } catch (IOException e) {
+            throw new EncodingException("ASN.1 decoding error", e);
+        }
     }
-  }
 }

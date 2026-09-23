@@ -9,25 +9,24 @@ import org.cryptacular.EncodingException;
 import org.cryptacular.util.PemUtil;
 
 /**
- * Decodes public keys formatted in an X.509 SubjectPublicKeyInfo structure in either PEM or DER encoding.
+ * Decodes public keys formatted in an X.509 SubjectPublicKeyInfo structure in either PEM or DER
+ * encoding.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
-public class PublicKeyDecoder implements ASN1Decoder<AsymmetricKeyParameter>
-{
+public class PublicKeyDecoder implements ASN1Decoder<AsymmetricKeyParameter> {
 
-  @Override
-  public AsymmetricKeyParameter decode(final byte[] encoded, final Object... args)
-  {
-    try {
-      if (PemUtil.isPem(encoded)) {
-        return PublicKeyFactory.createKey(PemUtil.decode(encoded));
-      }
-      try (ASN1InputStream is = new ASN1InputStream(encoded)) {
-        return PublicKeyFactory.createKey(is.readObject().getEncoded());
-      }
-    } catch (IOException e) {
-      throw new EncodingException("ASN.1 decoding error", e);
+    @Override
+    public AsymmetricKeyParameter decode(final byte[] encoded, final Object... args) {
+        try {
+            if (PemUtil.isPem(encoded)) {
+                return PublicKeyFactory.createKey(PemUtil.decode(encoded));
+            }
+            try (ASN1InputStream is = new ASN1InputStream(encoded)) {
+                return PublicKeyFactory.createKey(is.readObject().getEncoded());
+            }
+        } catch (IOException e) {
+            throw new EncodingException("ASN.1 decoding error", e);
+        }
     }
-  }
 }

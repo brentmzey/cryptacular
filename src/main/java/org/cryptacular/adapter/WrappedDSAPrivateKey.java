@@ -6,30 +6,28 @@ import java.security.interfaces.DSAPrivateKey;
 import org.bouncycastle.crypto.params.DSAPrivateKeyParameters;
 
 /**
- * JCE/JDK DSA private key that wraps the corresponding BC DSA private key type, {@link DSAPrivateKeyParameters}.
+ * JCE/JDK DSA private key that wraps the corresponding BC DSA private key type, {@link
+ * DSAPrivateKeyParameters}.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
-public class WrappedDSAPrivateKey extends AbstractWrappedDSAKey<DSAPrivateKeyParameters> implements DSAPrivateKey
-{
+public class WrappedDSAPrivateKey extends AbstractWrappedDSAKey<DSAPrivateKeyParameters>
+        implements DSAPrivateKey {
 
-  /** serialVersionUID. */
-  private static final long serialVersionUID = 8393283358287883368L;
+    /** serialVersionUID. */
+    private static final long serialVersionUID = 8393283358287883368L;
 
-  /**
-   * Creates a new instance that wraps the given BC DSA private key.
-   *
-   * @param  parameters  BC DSA private key.
-   */
-  public WrappedDSAPrivateKey(final DSAPrivateKeyParameters parameters)
-  {
-    super(parameters);
-  }
+    /**
+     * Creates a new instance that wraps the given BC DSA private key.
+     *
+     * @param parameters BC DSA private key.
+     */
+    public WrappedDSAPrivateKey(final DSAPrivateKeyParameters parameters) {
+        super(parameters);
+    }
 
-
-  @Override
-  public BigInteger getX()
-  {
-    return delegate.getX();
-  }
+    @Override
+    public BigInteger getX() {
+        return delegate.getX();
+    }
 }

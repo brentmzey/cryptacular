@@ -6,31 +6,28 @@ import lombok.Value;
 import lombok.experimental.NonFinal;
 
 /**
- * Simple implementation of the X.501 RelativeDistinguishedName type described in section 4.1.2.4 of RFC 2459.
+ * Simple implementation of the X.501 RelativeDistinguishedName type described in section 4.1.2.4 of
+ * RFC 2459.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
 @Value
 @NonFinal
 @Builder(toBuilder = true)
-public class RDN
-{
+public class RDN {
 
-  /** RDN attributes. */
-  private final Attributes attributes;
+    /** RDN attributes. */
+    private final Attributes attributes;
 
-
-  /**
-   * Creates a new instance with given attributes.
-   *
-   * @param  attributes  Container for one or more AttributeTypeAndValues.
-   */
-  public RDN(final Attributes attributes)
-  {
-    if (attributes == null) {
-      throw new IllegalArgumentException("Attributes cannot be null");
+    /**
+     * Creates a new instance with given attributes.
+     *
+     * @param attributes Container for one or more AttributeTypeAndValues.
+     */
+    public RDN(final Attributes attributes) {
+        if (attributes == null) {
+            throw new IllegalArgumentException("Attributes cannot be null");
+        }
+        this.attributes = attributes;
     }
-    this.attributes = attributes;
-  }
-
 }

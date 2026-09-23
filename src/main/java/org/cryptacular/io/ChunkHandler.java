@@ -7,21 +7,18 @@ import java.io.OutputStream;
 /**
  * Callback interface that supports arbitrary processing of data chunks read from an input stream.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
-public interface ChunkHandler
-{
+public interface ChunkHandler {
 
-  /**
-   * Processes the given chunk of data and writes it to the output stream.
-   *
-   * @param  input  Chunk of input data to process.
-   * @param  offset  Offset into input array where data to process starts.
-   * @param  count  Number of bytes of input data to process.
-   * @param  output  Output stream where processed data is written.
-   *
-   * @throws  IOException  On IO errors.
-   */
-  void handle(byte[] input, int offset, int count, OutputStream output)
-    throws IOException;
+    /**
+     * Processes the given chunk of data and writes it to the output stream.
+     *
+     * @param input Chunk of input data to process.
+     * @param offset Offset into input array where data to process starts.
+     * @param count Number of bytes of input data to process.
+     * @param output Output stream where processed data is written.
+     * @throws IOException On IO errors.
+     */
+    void handle(byte[] input, int offset, int count, OutputStream output) throws IOException;
 }

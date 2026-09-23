@@ -11,111 +11,99 @@ import org.bouncycastle.crypto.modes.GCMBlockCipher;
 import org.bouncycastle.crypto.modes.OCBBlockCipher;
 
 /**
- * Describes an AEAD block cipher in terms of a (algorithm, mode) tuple and provides a facility to create a new instance
- * of the cipher via the {@link #newInstance()} method.
+ * Describes an AEAD block cipher in terms of a (algorithm, mode) tuple and provides a facility to
+ * create a new instance of the cipher via the {@link #newInstance()} method.
  *
- * @author  Middleware Services
- * @version  $Revision: 2744 $
+ * @author Middleware Services
+ * @version $Revision: 2744 $
  */
-public class AEADBlockCipherSpec implements Spec<AEADBlockCipher>
-{
+public class AEADBlockCipherSpec implements Spec<AEADBlockCipher> {
 
-  /** String specification format, <code>algorithm/mode</code>. */
-  public static final Pattern FORMAT = Pattern.compile("(?<alg>[A-Za-z0-9_-]+)/(?<mode>\\w+)");
+    /** String specification format, <code>algorithm/mode</code>. */
+    public static final Pattern FORMAT = Pattern.compile("(?<alg>[A-Za-z0-9_-]+)/(?<mode>\\w+)");
 
-  /** Cipher algorithm. */
-  private final String algorithm;
+    /** Cipher algorithm. */
+    private final String algorithm;
 
-  /** Cipher mode, e.g. GCM, CCM. */
-  private final String mode;
+    /** Cipher mode, e.g. GCM, CCM. */
+    private final String mode;
 
-
-  /**
-   * Creates a new instance from a cipher algorithm and mode.
-   *
-   * @param  algName  Cipher algorithm name.
-   * @param  cipherMode  Cipher mode, e.g. GCM, CCM.
-   */
-  public AEADBlockCipherSpec(final String algName, final String cipherMode)
-  {
-    this.algorithm = algName;
-    this.mode = cipherMode;
-  }
-
-
-  @Override
-  public String getAlgorithm()
-  {
-    return algorithm;
-  }
-
-
-  /**
-   * Gets the cipher mode.
-   *
-   * @return  Cipher mode, e.g. CBC, OFB.
-   */
-  public String getMode()
-  {
-    return mode;
-  }
-
-
-  /**
-   * Creates a new AEAD block cipher from the specification in this instance.
-   *
-   * @return  New AEAD block cipher instance.
-   */
-  @Override
-  public AEADBlockCipher newInstance()
-  {
-    final BlockCipher blockCipher = new BlockCipherSpec(algorithm).newInstance();
-    final AEADBlockCipher aeadBlockCipher;
-    switch (mode) {
-
-    case "GCM":
-      aeadBlockCipher = GCMBlockCipher.newInstance(blockCipher);
-      break;
-
-    case "CCM":
-      aeadBlockCipher = CCMBlockCipher.newInstance(blockCipher);
-      break;
-
-    case "OCB":
-      aeadBlockCipher = new OCBBlockCipher(blockCipher, new BlockCipherSpec(algorithm).newInstance());
-      break;
-
-    case "EAX":
-      aeadBlockCipher = new EAXBlockCipher(blockCipher);
-      break;
-
-    default:
-      throw new IllegalStateException("Unsupported mode " + mode);
+    /**
+     * Creates a new instance from a cipher algorithm and mode.
+     *
+     * @param algName Cipher algorithm name.
+     * @param cipherMode Cipher mode, e.g. GCM, CCM.
+     */
+    public AEADBlockCipherSpec(final String algName, final String cipherMode) {
+        this.algorithm = algName;
+        this.mode = cipherMode;
     }
-    return aeadBlockCipher;
-  }
 
-
-  @Override
-  public String toString()
-  {
-    return algorithm + '/' + mode;
-  }
-
-
-  /**
-   * Parses a string representation of a AEAD block cipher specification into an instance of this class.
-   *
-   * @param  specification  AEAD block cipher specification of the form <code>algorithm/mode</code>.
-   *
-   * @return  Buffered block cipher specification instance.
-   */
-  public static AEADBlockCipherSpec parse(final String specification)
-  {
-    final Matcher m = FORMAT.matcher(specification);
-    if (!m.matches()) {
-      throw new IllegalArgumentException("Invalid specification " + specification);
+    @Override
+    public String getAlgorithm() {
+        return algorithm;
     }
-    return new AEADBlockCipherSpec(m.group("alg"), m.group("mode"));
-  }
+
+    /**
+     * Gets the cipher mode.
+     *
+     * @return Cipher mode, e.g. CBC, OFB.
+     */
+    public String getMode() {
+        return mode;
+    }
+
+    /**
+     * Creates a new AEAD block cipher from the specification in this instance.
+     *
+     * @return New AEAD block cipher instance.
+     */
+    @Override
+    public AEADBlockCipher newInstance() {
+        final BlockCipher blockCipher = new BlockCipherSpec(algorithm).newInstance();
+        final AEADBlockCipher aeadBlockCipher;
+        switch (mode) {
+            case "GCM":
+                aeadBlockCipher = GCMBlockCipher.newInstance(blockCipher);
+                break;
+
+            case "CCM":
+                aeadBlockCipher = CCMBlockCipher.newInstance(blockCipher);
+                break;
+
+            case "OCB":
+                aeadBlockCipher =
+                        new OCBBlockCipher(
+                                blockCipher, new BlockCipherSpec(algorithm).newInstance());
+                break;
+
+            case "EAX":
+                aeadBlockCipher = new EAXBlockCipher(blockCipher);
+                break;
+
+            default:
+                throw new IllegalStateException("Unsupported mode " + mode);
+        }
+        return aeadBlockCipher;
+    }
+
+    @Override
+    public String toString() {
+        return algorithm + '/' + mode;
+    }
+
+    /**
+     * Parses a string representation of a AEAD block cipher specification into an instance of this
+     * class.
+     *
+     * @param specification AEAD block cipher specification of the form <code>algorithm/mode</code>.
+     * @return Buffered block cipher specification instance.
+     */
+    public static AEADBlockCipherSpec parse(final String specification) {
+        final Matcher m = FORMAT.matcher(specification);
+        if (!m.matches()) {
+            throw new IllegalArgumentException("Invalid specification " + specification);
+        }
+        return new AEADBlockCipherSpec(m.group("alg"), m.group("mode"));
+    }
 }

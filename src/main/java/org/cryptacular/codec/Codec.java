@@ -4,24 +4,27 @@ package org.cryptacular.codec;
 /**
  * Container for an encoder/decoder pair.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
-public interface Codec
-{
+public interface Codec {
 
+    /**
+     * @return The byte-to-char encoder of the codec pair.
+     */
+    Encoder getEncoder();
 
-  /** @return  The byte-to-char encoder of the codec pair. */
-  Encoder getEncoder();
+    /**
+     * @return The char-to-byte decoder of the codec pair.
+     */
+    Decoder getDecoder();
 
+    /**
+     * @return A new instance of the byte-to-char encoder of the codec pair.
+     */
+    Encoder newEncoder();
 
-  /** @return  The char-to-byte decoder of the codec pair. */
-  Decoder getDecoder();
-
-
-  /** @return  A new instance of the byte-to-char encoder of the codec pair. */
-  Encoder newEncoder();
-
-
-  /** @return  A new instance of the char-to-byte decoder of the codec pair. */
-  Decoder newDecoder();
+    /**
+     * @return A new instance of the char-to-byte decoder of the codec pair.
+     */
+    Decoder newDecoder();
 }

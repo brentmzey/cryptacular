@@ -9,90 +9,80 @@ import org.cryptacular.io.Resource;
 import org.cryptacular.util.KeyPairUtil;
 
 /**
- * Factory for reading a private from a {@link Resource} containing data in any of the formats supported by {@link
- * KeyPairUtil#readPrivateKey(java.io.InputStream, char[])}.
+ * Factory for reading a private from a {@link Resource} containing data in any of the formats
+ * supported by {@link KeyPairUtil#readPrivateKey(java.io.InputStream, char[])}.
  *
- * @author  Middleware Services
- * @see  KeyPairUtil#readPrivateKey(java.io.InputStream, char[])
- * @see  KeyPairUtil#readPrivateKey(java.io.InputStream)
+ * @author Middleware Services
+ * @see KeyPairUtil#readPrivateKey(java.io.InputStream, char[])
+ * @see KeyPairUtil#readPrivateKey(java.io.InputStream)
  */
-public class ResourceBasedPrivateKeyFactoryBean implements FactoryBean<PrivateKey>
-{
+public class ResourceBasedPrivateKeyFactoryBean implements FactoryBean<PrivateKey> {
 
-  /** Resource containing key data. */
-  private Resource resource;
+    /** Resource containing key data. */
+    private Resource resource;
 
-  /** Password required to decrypt an encrypted private key. */
-  private String password;
+    /** Password required to decrypt an encrypted private key. */
+    private String password;
 
+    /** Creates a new instance. */
+    public ResourceBasedPrivateKeyFactoryBean() {}
 
-  /** Creates a new instance. */
-  public ResourceBasedPrivateKeyFactoryBean() {}
-
-
-  /**
-   * Creates a new instance capable of reading an unencrypted private key.
-   *
-   * @param  resource  Resource containing encoded key data.
-   */
-  public ResourceBasedPrivateKeyFactoryBean(final Resource resource)
-  {
-    setResource(resource);
-  }
-
-
-  /**
-   * Creates a new instance of reading an encrypted private key.
-   *
-   * @param  resource  Resource containing encoded key data.
-   * @param  decryptionPassword  Password-based encryption key.
-   */
-  public ResourceBasedPrivateKeyFactoryBean(final Resource resource, final String decryptionPassword)
-  {
-    setResource(resource);
-    setPassword(decryptionPassword);
-  }
-
-
-  /** @return  Resource containing key data. */
-  public Resource getResource()
-  {
-    return resource;
-  }
-
-
-  /**
-   * Sets the resource containing key data.
-   *
-   * @param  resource  Resource containing key bytes.
-   */
-  public void setResource(final Resource resource)
-  {
-    this.resource = resource;
-  }
-
-
-  /**
-   * Sets the password-based key used to decrypt an encrypted private key.
-   *
-   * @param  decryptionPassword  Password-based encryption key.
-   */
-  public void setPassword(final String decryptionPassword)
-  {
-    this.password = decryptionPassword;
-  }
-
-
-  @Override
-  public PrivateKey newInstance() throws EncodingException, StreamException
-  {
-    try {
-      if (password != null) {
-        return KeyPairUtil.readPrivateKey(resource.getInputStream(), password.toCharArray());
-      }
-      return KeyPairUtil.readPrivateKey(resource.getInputStream());
-    } catch (IOException e) {
-      throw new StreamException(e);
+    /**
+     * Creates a new instance capable of reading an unencrypted private key.
+     *
+     * @param resource Resource containing encoded key data.
+     */
+    public ResourceBasedPrivateKeyFactoryBean(final Resource resource) {
+        setResource(resource);
     }
-  }
+
+    /**
+     * Creates a new instance of reading an encrypted private key.
+     *
+     * @param resource Resource containing encoded key data.
+     * @param decryptionPassword Password-based encryption key.
+     */
+    public ResourceBasedPrivateKeyFactoryBean(
+            final Resource resource, final String decryptionPassword) {
+        setResource(resource);
+        setPassword(decryptionPassword);
+    }
+
+    /**
+     * @return Resource containing key data.
+     */
+    public Resource getResource() {
+        return resource;
+    }
+
+    /**
+     * Sets the resource containing key data.
+     *
+     * @param resource Resource containing key bytes.
+     */
+    public void setResource(final Resource resource) {
+        this.resource = resource;
+    }
+
+    /**
+     * Sets the password-based key used to decrypt an encrypted private key.
+     *
+     * @param decryptionPassword Password-based encryption key.
+     */
+    public void setPassword(final String decryptionPassword) {
+        this.password = decryptionPassword;
+    }
+
+    @Override
+    public PrivateKey newInstance() throws EncodingException, StreamException {
+        try {
+            if (password != null) {
+                return KeyPairUtil.readPrivateKey(
+                        resource.getInputStream(), password.toCharArray());
+            }
+            return KeyPairUtil.readPrivateKey(resource.getInputStream());
+        } catch (IOException e) {
+            throw new StreamException(e);
+        }
+    }
 }

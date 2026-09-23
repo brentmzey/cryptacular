@@ -23,109 +23,107 @@ import org.bouncycastle.crypto.digests.TigerDigest;
 import org.bouncycastle.crypto.digests.WhirlpoolDigest;
 
 /**
- * Describes a message digest function by name and provides a means to create a new instance of the digest via the
- * {@link #newInstance()} method.
+ * Describes a message digest function by name and provides a means to create a new instance of the
+ * digest via the {@link #newInstance()} method.
  *
- * @author  Middleware Services
+ * @author Middleware Services
  */
 @Value
 @NonFinal
 @Builder(toBuilder = true)
-public class DigestSpec implements Spec<Digest>
-{
+public class DigestSpec implements Spec<Digest> {
 
-  /** Digest algorithm name. */
-  private final String algorithm;
+    /** Digest algorithm name. */
+    private final String algorithm;
 
-  /** Requested size of variable-size hash algorithms, e.g. SHA-3. -1 for hashes with fixed size outputs. */
-  private final int size;
+    /**
+     * Requested size of variable-size hash algorithms, e.g. SHA-3. -1 for hashes with fixed size
+     * outputs.
+     */
+    private final int size;
 
-
-  /**
-   * Creates a new instance from the given algorithm name.
-   *
-   * @param  algName  Digest algorithm name.
-   */
-  public DigestSpec(final String algName)
-  {
-    if (algName == null) {
-      throw new IllegalArgumentException("Algorithm name is required.");
+    /**
+     * Creates a new instance from the given algorithm name.
+     *
+     * @param algName Digest algorithm name.
+     */
+    public DigestSpec(final String algName) {
+        if (algName == null) {
+            throw new IllegalArgumentException("Algorithm name is required.");
+        }
+        this.algorithm = algName;
+        this.size = -1;
     }
-    this.algorithm = algName;
-    this.size = -1;
-  }
 
-
-  /**
-   * Constructor for digests that have variable output size, e.g. SHA3.
-   *
-   * @param  algName  Digest algorithm name.
-   * @param  digestSize  Size of resultant digest in bits.
-   */
-  public DigestSpec(final String algName, final int digestSize)
-  {
-    if (algName == null) {
-      throw new IllegalArgumentException("Algorithm name is required.");
+    /**
+     * Constructor for digests that have variable output size, e.g. SHA3.
+     *
+     * @param algName Digest algorithm name.
+     * @param digestSize Size of resultant digest in bits.
+     */
+    public DigestSpec(final String algName, final int digestSize) {
+        if (algName == null) {
+            throw new IllegalArgumentException("Algorithm name is required.");
+        }
+        this.algorithm = algName;
+        if (digestSize < 0) {
+            throw new IllegalArgumentException("Digest size must be positive.");
+        }
+        this.size = digestSize;
     }
-    this.algorithm = algName;
-    if (digestSize < 0) {
-      throw new IllegalArgumentException("Digest size must be positive.");
+
+    /**
+     * Creates a new digest instance.
+     *
+     * @return Digest instance.
+     */
+    @Override
+    public Digest newInstance() {
+        final Digest digest;
+        if ("GOST3411".equalsIgnoreCase(algorithm)) {
+            digest = new GOST3411Digest();
+        } else if ("MD2".equalsIgnoreCase(algorithm)) {
+            digest = new MD2Digest();
+        } else if ("MD4".equalsIgnoreCase(algorithm)) {
+            digest = new MD4Digest();
+        } else if ("MD5".equalsIgnoreCase(algorithm)) {
+            digest = new MD5Digest();
+        } else if ("RIPEMD128".equalsIgnoreCase(algorithm)
+                || "RIPEMD-128".equalsIgnoreCase(algorithm)) {
+            digest = new RIPEMD128Digest();
+        } else if ("RIPEMD160".equalsIgnoreCase(algorithm)
+                || "RIPEMD-160".equalsIgnoreCase(algorithm)) {
+            digest = new RIPEMD160Digest();
+        } else if ("RIPEMD256".equalsIgnoreCase(algorithm)
+                || "RIPEMD-256".equalsIgnoreCase(algorithm)) {
+            digest = new RIPEMD256Digest();
+        } else if ("RIPEMD320".equalsIgnoreCase(algorithm)
+                || "RIPEMD-320".equalsIgnoreCase(algorithm)) {
+            digest = new RIPEMD320Digest();
+        } else if ("SHA1".equalsIgnoreCase(algorithm) || "SHA-1".equalsIgnoreCase(algorithm)) {
+            digest = new SHA1Digest();
+        } else if ("SHA224".equalsIgnoreCase(algorithm) || "SHA-224".equalsIgnoreCase(algorithm)) {
+            digest = new SHA224Digest();
+        } else if ("SHA256".equalsIgnoreCase(algorithm) || "SHA-256".equalsIgnoreCase(algorithm)) {
+            digest = new SHA256Digest();
+        } else if ("SHA384".equalsIgnoreCase(algorithm) || "SHA-384".equalsIgnoreCase(algorithm)) {
+            digest = new SHA384Digest();
+        } else if ("SHA512".equalsIgnoreCase(algorithm) || "SHA-512".equalsIgnoreCase(algorithm)) {
+            digest = new SHA512Digest();
+        } else if ("SHA3".equalsIgnoreCase(algorithm) || "SHA-3".equalsIgnoreCase(algorithm)) {
+            digest = new SHA3Digest(size);
+        } else if ("Tiger".equalsIgnoreCase(algorithm)) {
+            digest = new TigerDigest();
+        } else if ("Whirlpool".equalsIgnoreCase(algorithm)) {
+            digest = new WhirlpoolDigest();
+        } else {
+            throw new IllegalStateException("Unsupported digest algorithm " + algorithm);
+        }
+        return digest;
     }
-    this.size = digestSize;
-  }
 
-
-  /**
-   * Creates a new digest instance.
-   *
-   * @return  Digest instance.
-   */
-  @Override
-  public Digest newInstance()
-  {
-    final Digest digest;
-    if ("GOST3411".equalsIgnoreCase(algorithm)) {
-      digest = new GOST3411Digest();
-    } else if ("MD2".equalsIgnoreCase(algorithm)) {
-      digest = new MD2Digest();
-    } else if ("MD4".equalsIgnoreCase(algorithm)) {
-      digest = new MD4Digest();
-    } else if ("MD5".equalsIgnoreCase(algorithm)) {
-      digest = new MD5Digest();
-    } else if ("RIPEMD128".equalsIgnoreCase(algorithm) || "RIPEMD-128".equalsIgnoreCase(algorithm)) {
-      digest = new RIPEMD128Digest();
-    } else if ("RIPEMD160".equalsIgnoreCase(algorithm) || "RIPEMD-160".equalsIgnoreCase(algorithm)) {
-      digest = new RIPEMD160Digest();
-    } else if ("RIPEMD256".equalsIgnoreCase(algorithm) || "RIPEMD-256".equalsIgnoreCase(algorithm)) {
-      digest = new RIPEMD256Digest();
-    } else if ("RIPEMD320".equalsIgnoreCase(algorithm) || "RIPEMD-320".equalsIgnoreCase(algorithm)) {
-      digest = new RIPEMD320Digest();
-    } else if ("SHA1".equalsIgnoreCase(algorithm) || "SHA-1".equalsIgnoreCase(algorithm)) {
-      digest = new SHA1Digest();
-    } else if ("SHA224".equalsIgnoreCase(algorithm) || "SHA-224".equalsIgnoreCase(algorithm)) {
-      digest = new SHA224Digest();
-    } else if ("SHA256".equalsIgnoreCase(algorithm) || "SHA-256".equalsIgnoreCase(algorithm)) {
-      digest = new SHA256Digest();
-    } else if ("SHA384".equalsIgnoreCase(algorithm) || "SHA-384".equalsIgnoreCase(algorithm)) {
-      digest = new SHA384Digest();
-    } else if ("SHA512".equalsIgnoreCase(algorithm) || "SHA-512".equalsIgnoreCase(algorithm)) {
-      digest = new SHA512Digest();
-    } else if ("SHA3".equalsIgnoreCase(algorithm) || "SHA-3".equalsIgnoreCase(algorithm)) {
-      digest = new SHA3Digest(size);
-    } else if ("Tiger".equalsIgnoreCase(algorithm)) {
-      digest = new TigerDigest();
-    } else if ("Whirlpool".equalsIgnoreCase(algorithm)) {
-      digest = new WhirlpoolDigest();
-    } else {
-      throw new IllegalStateException("Unsupported digest algorithm " + algorithm);
+    @Override
+    public String toString() {
+        return algorithm;
     }
-    return digest;
-  }
-
-
-  @Override
-  public String toString()
-  {
-    return algorithm;
-  }
 }
